@@ -1,4 +1,3 @@
-
 //   ____    ____  _       ____  _____ __ __    ___  ____  
 //  |    \  /    || |     /    |/ ___/|  |  |  /  _]|    \ 
 //  |  o  )|  o  || |    |  o  (   \_ |  |  | /  [_ |  D  )
@@ -7,7 +6,7 @@
 //  |      |  |  ||     ||  |  |\    ||  |  ||     ||  .  \
 //  |_____/|__|__||_____||__|__| \___||__|__||_____||__|\_|
                                                         
-// *******Trivia Game pseudo code*******
+// *******Trivia Game Directive*******
 // Start button to start game and timer
 // Timer counting down once started (15-20 sec)
 // Show only one question until the player answers it or their time runs out
@@ -19,26 +18,18 @@
 //      If the player chooses the wrong answer, tell the player they selected the wrong option and then display the correct answer. Wait a few seconds, then show the next question.
 // When games ends show total correct and incorrect answer totals, and an option to restart game (without reloading the page)
 
-
-
 $(document).ready(function() {
-    //Create Variables
+    //Variables to be used throughout the script
+    let userGuess;
     let currentQuestion;
     let correctAnswer;
     let incorrectAnswer;
     let unanswered;
-    let seconds;
-    let gameTime;
     let answered;
-    let userGuess;
-    let gameAlerts = {
-        correct: "Good Job! That's correct!",
-        incorrect: "Nope, that's incorrect.",
-        endTime: "Times up!",
-    }
-    
+    let gameTime;
+    let seconds;
 
-    // Questions, possible answers, and correct answer in object array
+    // Questions, possible answers, and correct answers in object array
     let questions = [{
         question: 'What is the first thing you do before approaching any emergency situation?',
         answers: ['Check the area for danger', 
@@ -115,7 +106,7 @@ $(document).ready(function() {
 
     // Functions for Game //////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    // RenderGame function starts game after "start-button" and "restart-button" click. It resets values, shows and hide elements, and kicks off newQuestion function
     function renderGame() {
         currentQuestion = 0;
         correctAnswer = 0;
@@ -126,14 +117,14 @@ $(document).ready(function() {
         $('#quiz-intro-page').hide();
         newQuestion();
     }
-
+    // Generates new question and answers using a for loop
     function newQuestion() {
         answered = true;
-        //sets new question
         $('#game-alert').empty();
+        $('#answer-image').empty();
         $('#correct-answer-text').empty();
         $('#question').html('<h2>' + questions[currentQuestion].question + '</h2>');
-        //sets anwswers in buttons
+
         for (let i = 0; i < 4; i++) {
             let possibleAnswers = $('<button>');
             possibleAnswers.text(questions[currentQuestion].answers[i]);
@@ -153,7 +144,7 @@ $(document).ready(function() {
     }
 
     function gameTimer(){
-        seconds = 16;
+        seconds = 20;
         answered = true;
         gameTime = setInterval(countDown, 1000);
     }
@@ -161,7 +152,7 @@ $(document).ready(function() {
     function countDown(){
         seconds--;
         $('#time-remaining').html('Time Remaining: ' + seconds);
-        $("#progressBar")[0].value = 16 - seconds;
+        $("#progressBar")[0].value = 20 - seconds;
 
 
         if (seconds <= 0){
@@ -171,7 +162,6 @@ $(document).ready(function() {
         }
     }
 
-
     function answerPage() {
         $('#question').empty();
         $('#answer-list').empty();
@@ -180,35 +170,35 @@ $(document).ready(function() {
         let correctAnswerData = questions[currentQuestion].answer;
 
         //checks to see correct, incorrect, or unanswered
-        if ((userGuess === correctAnswerData) && (answered === true)){
+        if (userGuess === correctAnswerData && answered !== false) {
             correctAnswer++;
-            $('#game-alert').html(gameAlerts.correct);
-        } else if ((userGuess !== correctAnswerData) && (answered === true)){
+            $('#game-alert').html('Good Job! That\'s correct!');
+            $('#answer-image').html('<img src="./assets/images/check-mark.png" class="answer-image">');
+        } else if (userGuess !== correctAnswerData && answered !== false) {
             incorrectAnswer++;
-            $('#game-alert').html(gameAlerts.incorrect);
+            $('#game-alert').html('Nope, that\'s incorrect.');
+            $('#answer-image').html('<img src="./assets/images/x-mark.png" class="answer-image">');
             $('#correct-answer-text').html('The correct answer was: ' + correctAnswerText);
         } else {
             unanswered++;
-            $('#game-alert').html(gameAlerts.endTime);
-            $('#correct-answer-text').html('The correct answer was: ' + correctAnswerText);
             answered = true;
+            $('#game-alert').html('Times up!');
+            $('#answer-image').html('<img src="./assets/images/x-mark.png" class="answer-image">');
+            $('#correct-answer-text').html('The correct answer was: ' + correctAnswerText);   
         }
         
         if (currentQuestion === (questions.length - 1)){
             setTimeout(gameOver, 3000)
-        } else{
+        } else {
             currentQuestion++;
             setTimeout(newQuestion, 3000);
         }	
     }
 
-    
     function gameOver() {
-
         $('#quiz-question-page').hide();
         $('#quiz-answer-page').hide();
         $('#quiz-game-over-page').show();
-
         $('#quiz-game-over-page').html(`
         <div class="jumbotron shadow text-center quiz-game-over-page">
             <h1 class="display-4" id="game-over-title">Finished!</h1>
@@ -217,22 +207,15 @@ $(document).ready(function() {
             <h2>Correct Answers: ${correctAnswer}</h2>
             <h2>Incorrect Answers: ${incorrectAnswer}</h2>
             <h2>Unanswered: ${unanswered}</h2>
-            <button class="btn btn-primary btn-lg mt-3" role="button" id="restart-button">Restart Quiz</button>
+            <button class="btn btn-primary btn-lg mt-3" href="#" role="button" id="restart-button">Restart Quiz</button>
         </div>
-        
         `);
 
         $('#restart-button').on('click', function(){
-            // $('#quiz-intro-page').hide();
             $('#quiz-game-over-page').hide();
-            // $('#quiz-question-page').show();
             renderGame();
         });
     }
-
-
-
-
     // End Functions for Game //////////////////////////////////////////////////////////////////////////////////////////////
 
     $('#start-button').on('click', function(){
@@ -240,9 +223,6 @@ $(document).ready(function() {
         $('#quiz-question-page').show();
         renderGame();
     });
-
-
-    
 
     $('#quiz-intro-page').show();
     $('#quiz-question-page').hide();

@@ -32,3 +32,8 @@
 .answer-button {
     background-color: #164883;
 }
+
+.answer-image {
+    max-width: 200px;
+    height: auto;
+}
