@@ -91,7 +91,7 @@ $(document).ready(function() {
         question: 'During CPR, the chest of the Adult should be compressed:',
         answers: ['1/2” ', 
                   '1"', 
-                  'At least 2"', 
+                  'At least 2 -2.4"', 
                   'At least 8” deep'],
         answer: 2
     }
