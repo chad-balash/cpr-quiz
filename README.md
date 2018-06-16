@@ -19,7 +19,7 @@ You will be asked a series of questions and given 20 seconds to answer each. You
 
 ## Authors
 
-* **Chad Balash** - [PurpleBooth](https://github.com/chad-balash)
+* **Chad Balash** - [Profile](https://github.com/chad-balash)
 
 ## Acknowledgments
 
