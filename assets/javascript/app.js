@@ -146,9 +146,9 @@ $(document).ready(function() {
     function gameTimer(){
         seconds = 20;
         answered = true;
-        gameTime = setInterval(countDown, 1000);
+        gameTime = setInterval(displayTimer, 1000);
     }
-    function countDown(){
+    function displayTimer(){
         seconds--;
         $('#time-remaining').html('Time Remaining: ' + seconds);
         $("#progressBar")[0].value = 20 - seconds;
