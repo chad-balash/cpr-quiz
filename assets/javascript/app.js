@@ -186,7 +186,7 @@ $(document).ready(function() {
             $('#answer-image').html('<img src="./assets/images/x-mark.png" class="answer-image">');
             $('#correct-answer-text').html('The correct answer was: ' + correctAnswerText);   
         }
-        
+
         if (currentQuestion === (questions.length - 1)){
             setTimeout(gameOver, 3000)
         } else {
@@ -208,8 +208,16 @@ $(document).ready(function() {
             <h2>Incorrect Answers: ${incorrectAnswer}</h2>
             <h2>Unanswered: ${unanswered}</h2>
             <button class="btn btn-primary btn-lg mt-3" href="#" role="button" id="restart-button">Restart Quiz</button>
+            <div class="mt-5" id="suggestions"></div>
         </div>
         `);
+
+        //I'm going to add some if statements to display CPR class refresher training links and suggestions depending the number of correct answers.
+
+        if (correctAnswer <= 4) {
+            $('#suggestions').html('You didn\'t do so well. You should check American CPR Training for a refresher course <a href="https://americancpr.com/safety-training.html">here.</a>');
+        }
+        
 
         $('#restart-button').on('click', function(){
             $('#quiz-game-over-page').hide();
