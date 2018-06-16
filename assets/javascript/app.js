@@ -117,7 +117,7 @@ $(document).ready(function() {
         $('#quiz-intro-page').hide();
         newQuestion();
     }
-    // Generates new question and answers using a for loop
+    // Generates new question, then answers using a for loop. Also includes the starts timer function as well as a an on click listener for the user input
     function newQuestion() {
         answered = true;
         $('#game-alert').empty();
@@ -135,20 +135,19 @@ $(document).ready(function() {
 
         gameTimer();
 
-        //clicking an answer will pause the time and setup answerPage
         $('.answer-button').on('click', function() {
             userGuess = $(this).data('ninja');
             clearInterval(gameTime);
-            answerPage();
+            answerCheck();
         });
     }
 
+    //Two finctions for the game timer.  I pulled most of this from online. I'm not happy with it so I need to create a better one. I added a progress bar as well for page visuals
     function gameTimer(){
         seconds = 20;
         answered = true;
         gameTime = setInterval(countDown, 1000);
     }
-    
     function countDown(){
         seconds--;
         $('#time-remaining').html('Time Remaining: ' + seconds);
@@ -158,11 +157,12 @@ $(document).ready(function() {
         if (seconds <= 0){
             clearInterval(gameTime);
             answered = false;
-            answerPage();
+            answerCheck();
         }
     }
 
-    function answerPage() {
+    //This function checks the answer and displays appropriate message based on user input.
+    function answerCheck() {
         $('#question').empty();
         $('#answer-list').empty();
     
@@ -194,7 +194,7 @@ $(document).ready(function() {
             setTimeout(newQuestion, 3000);
         }	
     }
-
+    //End of game function to display totals and restart button
     function gameOver() {
         $('#quiz-question-page').hide();
         $('#quiz-answer-page').hide();
@@ -218,12 +218,14 @@ $(document).ready(function() {
     }
     // End Functions for Game //////////////////////////////////////////////////////////////////////////////////////////////
 
+    //On clcik listen for the start button
     $('#start-button').on('click', function(){
         $('#quiz-intro-page').hide();
         $('#quiz-question-page').show();
         renderGame();
     });
 
+    //Displays appropriate pages at the start
     $('#quiz-intro-page').show();
     $('#quiz-question-page').hide();
     
