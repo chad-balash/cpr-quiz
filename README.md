@@ -1,6 +1,6 @@
 # CPR Quiz
 
-[Link to quiz:](https://chad-balash.github.io/trivia-game/)
+[Link to quiz:](https://chad-balash.github.io/cpr-quiz/)
 
 This is a simple CPR quiz to test your knowledge on basic life saving skills. I created this using html, css, javascript, jquery, and bootstrap.
 
